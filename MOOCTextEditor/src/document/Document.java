@@ -70,28 +70,27 @@ public abstract class Document {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 1) and 
 	    // EfficientDocument (module 2).
-		Character[] vowels = {
-			'a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'
-		};
-		int syllables = 0;
+		int numSyllables = 0;
+		boolean newSyllable = true;
+		String vowels = "aeiouy";
 		char[] cArray = word.toCharArray();
-		int i = 0;
-		for (char c : cArray) {
-			if ( Arrays.asList(vowels).contains(c) ) {
-				syllables += 1;
-				if ( i > 0 && Arrays.asList(vowels).contains(word.charAt(i-1)) ) {
-					syllables -= 1;
-				}
+		for (int i = 0; i < cArray.length; i+=1) {
+			// if last letter is 'e' and previous letter was a consonant and num of syllables is > 0
+			// "the", "pee"
+			if (i == cArray.length-1 && Character.toLowerCase(cArray[i]) == 'e'
+					&& newSyllable && numSyllables > 0 ) {
+				numSyllables -= 1;
 			}
-			i += 1;
+			// if the last letter was a consonant and current letter is a vowel
+			if (newSyllable && vowels.indexOf(Character.toLowerCase(cArray[i])) >= 0 ) {
+				newSyllable = false;
+				numSyllables += 1;
+			// found consonant
+			} else if (vowels.indexOf(Character.toLowerCase(cArray[i])) == -1 ) {
+				newSyllable = true;
+			}
 		}
-		if (cArray[cArray.length-1] == 'e' && syllables > 0) {
-			syllables -= 1;
-		}
-		if (cArray[cArray.length-1] == 'e' && syllables == 0) {
-			syllables = 1;
-		}
-	    return syllables;
+		return numSyllables;
 	}
 	
 	/** A method for testing
