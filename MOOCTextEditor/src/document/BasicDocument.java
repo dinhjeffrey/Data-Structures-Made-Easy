@@ -1,6 +1,7 @@
 package document;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /** 
  * A naive implementation of the Document abstract class. 
@@ -16,7 +17,7 @@ public class BasicDocument extends Document
 	{
 		super(text);
 	}
-	
+
 	
 	/**
 	 * Get the number of words in the document.
@@ -36,7 +37,8 @@ public class BasicDocument extends Document
 	{
 		//TODO: Implement this method in week 1 according to the comments above.  
 		// See the Module 1 support videos if you need help.
-	    return 0;
+		List<String> tokens = getTokens("[a-zA-Z]+");
+		return tokens.size();
 	}
 	
 	/**
@@ -56,7 +58,8 @@ public class BasicDocument extends Document
 	{
 	    //TODO: Implement this method.  See the Module 1 support videos 
         // if you need help.
-        return 0;
+		List<String> tokens = getTokens("[^.!?]+");
+        return tokens.size();
 	}
 	
 	/**
@@ -81,7 +84,13 @@ public class BasicDocument extends Document
 		// expression for the syllable counting.  We recommend you implement 
 		// the helper function countSyllables in Document.java using a loop, 
 		// and then call it here on each word.
-        return 0;
+
+		List<String> tokens = getTokens("[a-zA-Z]+");
+		int syllables = 0;
+		for (String token : tokens) {
+			syllables += countSyllables(token);
+		}
+        return syllables;
 	}
 	
 	

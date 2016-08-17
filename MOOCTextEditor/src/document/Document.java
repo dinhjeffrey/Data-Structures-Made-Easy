@@ -4,10 +4,13 @@ package document;
  * A class that represents a text document
  * @author UC San Diego Intermediate Programming MOOC team
  */
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 public abstract class Document {
 
@@ -67,7 +70,28 @@ public abstract class Document {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 1) and 
 	    // EfficientDocument (module 2).
-	    return 0;
+		Character[] vowels = {
+			'a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'
+		};
+		int syllables = 0;
+		char[] cArray = word.toCharArray();
+		int i = 0;
+		for (char c : cArray) {
+			if ( Arrays.asList(vowels).contains(c) ) {
+				syllables += 1;
+				if ( i > 0 && Arrays.asList(vowels).contains(word.charAt(i-1)) ) {
+					syllables -= 1;
+				}
+			}
+			i += 1;
+		}
+		if (cArray[cArray.length-1] == 'e' && syllables > 0) {
+			syllables -= 1;
+		}
+		if (cArray[cArray.length-1] == 'e' && syllables == 0) {
+			syllables = 1;
+		}
+	    return syllables;
 	}
 	
 	/** A method for testing
